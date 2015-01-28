@@ -94,17 +94,6 @@ public class FlappyBird extends Application {
 
             }
         });
-        root.requestFocus();
-        root.setOnKeyPressed(e -> {
-            if (!gameOver) {
-                if (e.getCode() == KeyCode.SPACE) {
-                    jumpflappy();
-                }
-            } else {
-                retry();
-
-            }
-        });
         root.setOnTouchPressed(e -> {
             if (!gameOver)
                 jumpflappy();

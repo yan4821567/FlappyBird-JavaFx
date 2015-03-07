@@ -1,15 +1,11 @@
+
 package flappybird;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Ellipse;
 
-/**
- *
- * @author tareq
- */
 public class Bird {
 
     private ImageView graphics = new ImageView();

@@ -1,6 +1,8 @@
 
 package flappybird;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
@@ -9,7 +11,12 @@ import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 
+/**
+ *
+ * @author Tareq Si Salem
+ */
 public class TwoTubes extends Group {
 
     public Rectangle topHead, lowerHead;
@@ -18,9 +25,22 @@ public class TwoTubes extends Group {
     Stop[] stops = new Stop[]{new Stop(0, Color.LIGHTGREEN), new Stop(1, Color.DARKGREEN)};
     LinearGradient lg1 = new LinearGradient(0, 0, 1, 0, true, CycleMethod.NO_CYCLE, stops);
     Color c2 = new Color(84 / 255.0, 56 / 255.0, 71 / 255.0, 1.0);
+    double oscillationCenter;
+    Timeline animateTube;
+    int frames = 0;
 
     public TwoTubes(SimpleDoubleProperty gapLocation, Pane root, boolean animate) {
+
         topBody = new Rectangle();
+        oscillationCenter = gapLocation.get();
+        if (animate) {
+            animateTube = new Timeline(new KeyFrame(Duration.millis(33), e -> {
+                gapLocation.set(25 * Math.cos(Math.PI / 60 * frames) + oscillationCenter);
+                frames = (frames + 1) % 120;
+            }));
+            animateTube.setCycleCount(-1);
+            animateTube.play();
+        }
         topBody.widthProperty().bind(root.widthProperty().divide(12.3));
         topBody.heightProperty().bind(gapLocation);
         topHead = new Rectangle();

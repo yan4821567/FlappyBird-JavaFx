@@ -8,7 +8,7 @@ import javafx.scene.text.Text;
 
 /**
  *
- * @author tareq
+ * @author Tareq Si Salem
  */
 public class StatusUpdater extends Pane {
 

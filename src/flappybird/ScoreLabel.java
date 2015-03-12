@@ -8,7 +8,7 @@ import javafx.scene.text.Text;
 
 /**
  *
- * @author tareq
+ * @author Tareq Si Salem
  */
 public class ScoreLabel extends Pane {
 
@@ -42,7 +42,6 @@ class GameOverLabel extends ScoreLabel {
         setPrefWidth(400);
         setTranslateX(x - 150);
         status.setTranslateX(100);
-        
 
     }
 

@@ -13,6 +13,8 @@ import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Path;
@@ -21,9 +23,14 @@ import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+
+/**
+ *
+ * @author Tareq Si Salem
+ */
 public class FlappyBird extends Application {
 
-    private final double width = 1000, height = 700;
+    private final double width = 1000, height = 400; // set screen size
     Resourses res = new Resourses();
     Pane root;
     boolean gameOver = false;
@@ -141,8 +148,14 @@ public class FlappyBird extends Application {
         }
         for (int i = 0; i < 5; i++) {
             SimpleDoubleProperty y = new SimpleDoubleProperty(0);
-            y.bind(root.heightProperty().multiply(Math.random() / 2.0));
-            TwoTubes tube = new TwoTubes(y, root, false);
+            y.set(root.getHeight() * Math.random() / 2.0);
+            TwoTubes tube;
+            if (i == 2) {
+                tube = new TwoTubes(y, root, true);
+            } else {
+                tube = new TwoTubes(y, root, false);
+
+            }
             tube.setTranslateX(i * (width / 4 + 10) + 400);
             listOfTubes.add(tube);
             root.getChildren().add(tube);
@@ -165,26 +178,34 @@ public class FlappyBird extends Application {
         fall.setByY(height + 20);
         rotator.setCycleCount(1);
         bird.getGraphics().setRotationAxis(Rotate.Z_AXIS);
-        gameLoop = new Timeline(new KeyFrame(Duration.millis(1000 / FPS_30), e -> {
-            updateCounters();
-            checkCollisions();
-            if (listOfTubes.get(0).getTranslateX() <= -width / 12.3) {
-                listOfTubes.remove(0);
-                SimpleDoubleProperty y = new SimpleDoubleProperty(0);
-                y.bind(root.heightProperty().multiply(Math.random() / 2.0));
-                TwoTubes tube = new TwoTubes(y, root, false);
-                tube.setTranslateX(listOfTubes.get(listOfTubes.size() - 1).getTranslateX() + (width / 4 + 10));
-                listOfTubes.add(tube);
-                incrementOnce = true;
-                root.getChildren().remove(7);
-                root.getChildren().add(tube);
-            }
-            for (int i = 0; i < listOfTubes.size(); i++) {
-                if (listOfClouds.get(i).getX() < -listOfClouds.get(i).getImage().getWidth() * listOfClouds.get(i).getScaleX()) {
-                    listOfClouds.get(i).setX(listOfClouds.get(i).getX() + width + listOfClouds.get(i).getImage().getWidth() * listOfClouds.get(i).getScaleX());
+        gameLoop = new Timeline(new KeyFrame(Duration.millis(1000 / FPS_30), new EventHandler<ActionEvent>() {
+
+            public void handle(ActionEvent e) {
+                updateCounters();
+                checkCollisions();
+                if (listOfTubes.get(0).getTranslateX() <= -width / 12.3) {
+                    listOfTubes.remove(0);
+                    SimpleDoubleProperty y = new SimpleDoubleProperty(0);
+                    y.set(root.getHeight() * Math.random() / 2.0);
+                    TwoTubes tube;
+                    if (Math.random() < 0.5) {
+                        tube = new TwoTubes(y, root, true);
+                    } else {
+                        tube = new TwoTubes(y, root, false);
+                    }
+                    tube.setTranslateX(listOfTubes.get(listOfTubes.size() - 1).getTranslateX() + (width / 4 + 10));
+                    listOfTubes.add(tube);
+                    incrementOnce = true;
+                    root.getChildren().remove(7);
+                    root.getChildren().add(tube);
                 }
-                listOfClouds.get(i).setX(listOfClouds.get(i).getX() - 1);
-                listOfTubes.get(i).setTranslateX(listOfTubes.get(i).getTranslateX() - 2);
+                for (int i = 0; i < listOfTubes.size(); i++) {
+                    if (listOfClouds.get(i).getX() < -listOfClouds.get(i).getImage().getWidth() * listOfClouds.get(i).getScaleX()) {
+                        listOfClouds.get(i).setX(listOfClouds.get(i).getX() + width + listOfClouds.get(i).getImage().getWidth() * listOfClouds.get(i).getScaleX());
+                    }
+                    listOfClouds.get(i).setX(listOfClouds.get(i).getX() - 1);
+                    listOfTubes.get(i).setTranslateX(listOfTubes.get(i).getTranslateX() - 2);
+                }
             }
         }));
         gameLoop.setCycleCount(-1);

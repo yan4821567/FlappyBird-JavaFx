@@ -11,7 +11,7 @@
   </resources>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="FlappyBird.jar" size="20333" download="eager" />
+    <jar href="FlappyBird.jar" size="20543" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="FlappyBird" >
     <param name="requiredFXVersion" value="8.0+"/>

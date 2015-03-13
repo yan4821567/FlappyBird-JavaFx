@@ -23,7 +23,6 @@ import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-
 /**
  *
  * @author Tareq Si Salem
@@ -149,13 +148,7 @@ public class FlappyBird extends Application {
         for (int i = 0; i < 5; i++) {
             SimpleDoubleProperty y = new SimpleDoubleProperty(0);
             y.set(root.getHeight() * Math.random() / 2.0);
-            TwoTubes tube;
-            if (i == 2) {
-                tube = new TwoTubes(y, root, true);
-            } else {
-                tube = new TwoTubes(y, root, false);
-
-            }
+            TwoTubes tube = new TwoTubes(y, root, false, false);
             tube.setTranslateX(i * (width / 4 + 10) + 400);
             listOfTubes.add(tube);
             root.getChildren().add(tube);
@@ -188,10 +181,12 @@ public class FlappyBird extends Application {
                     SimpleDoubleProperty y = new SimpleDoubleProperty(0);
                     y.set(root.getHeight() * Math.random() / 2.0);
                     TwoTubes tube;
-                    if (Math.random() < 0.5) {
-                        tube = new TwoTubes(y, root, true);
+                    if (Math.random() < 0.4) {
+                        tube = new TwoTubes(y, root, true, false);
+                    } else if (Math.random() > 0.85) {
+                        tube = new TwoTubes(y, root, true, true);
                     } else {
-                        tube = new TwoTubes(y, root, false);
+                        tube = new TwoTubes(y, root, false, false);
                     }
                     tube.setTranslateX(listOfTubes.get(listOfTubes.size() - 1).getTranslateX() + (width / 4 + 10));
                     listOfTubes.add(tube);

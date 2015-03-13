@@ -1,4 +1,3 @@
-
 package flappybird;
 
 import javafx.animation.KeyFrame;
@@ -11,6 +10,7 @@ import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
 /**
@@ -28,9 +28,15 @@ public class TwoTubes extends Group {
     double oscillationCenter;
     Timeline animateTube;
     int frames = 0;
+    int rotateOffset = 0;
 
-    public TwoTubes(SimpleDoubleProperty gapLocation, Pane root, boolean animate) {
-
+    public TwoTubes(SimpleDoubleProperty gapLocation, Pane root, boolean animate, boolean rotate) {
+        if (rotate) {
+            setRotationAxis(Rotate.Z_AXIS);
+            setRotate(-25 + 50 * Math.random());
+            rotateOffset = 80;
+            setTranslateY(-40);
+        }
         topBody = new Rectangle();
         oscillationCenter = gapLocation.get();
         if (animate) {
@@ -53,7 +59,7 @@ public class TwoTubes extends Group {
         lowerHead.heightProperty().bind(root.heightProperty().divide(12));
         lowerBody = new Rectangle();
         lowerBody.widthProperty().bind(root.widthProperty().divide(12.3));
-        lowerBody.heightProperty().bind(root.heightProperty().add(-GAP - 50).subtract(gapLocation));
+        lowerBody.heightProperty().bind(root.heightProperty().add(-GAP - 50 + rotateOffset).subtract(gapLocation));
         lowerBody.setX(2.5);
         lowerHead.yProperty().bind(gapLocation.add(GAP).add(root.heightProperty().divide(12)));
         lowerBody.yProperty().bind(gapLocation.add(GAP).add(root.heightProperty().divide(6)));
